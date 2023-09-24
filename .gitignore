@@ -1,0 +1,5 @@
+
+.DS_Store
+libdragon/
+*.z64
+build/
