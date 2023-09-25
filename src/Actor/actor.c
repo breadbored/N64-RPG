@@ -47,13 +47,6 @@ int actor_frame(actor_t *actor, uint32_t *animcounter) {
     return playerFrame;
 }
 
-Vector2 get_screen_coordinates(Vector2 position) {
-    Vector2 screen_coordinates;
-    screen_coordinates.x = position.x - screen_relative_position.x + ((screen_size.x / 2) - 16);
-    screen_coordinates.y = position.y - screen_relative_position.y + ((screen_size.y / 2) - 16);
-    return screen_coordinates;
-}
-
 void actor_draw(actor_t *actor, uint32_t *animcounter) {
     Vector2 screen_coordinates = get_screen_coordinates(actor->position);
 

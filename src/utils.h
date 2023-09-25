@@ -49,4 +49,8 @@ bool are_same(float x, float y);
 
 MouseData get_mouse_value( uint32_t controllerData );
 
+Vector2 get_screen_coordinates(Vector2 position);
+
+int clamp(int value, int min, int max);
+
 #endif /* __BREADCODES_UTILS_H */

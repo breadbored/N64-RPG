@@ -6,6 +6,8 @@
 #include <math.h>
 #include "globals.h"
 #include "utils.h"
+#include "Maps/map.h"
+#include "Maps/test_map.h"
 #include "Actor/actor.h"
 #include "Actor/player.h"
 #include "Actor/npc.h"
@@ -31,6 +33,7 @@ Vector2 cursorPosition = { 0, 0 };
 uint32_t controllerData1 = 0x00000000;
 uint32_t controllerData2 = 0x00000000;
 
+map_t testMap;
 npc_t testNpc1;
 npc_t testNpc2;
 npc_t testNpc3;
@@ -85,6 +88,12 @@ int main( void )
     controller_init();
     timer_init();
 
+    testMap = (map_t){
+        test_map_width,
+        test_map_height,
+        test_bg_map,
+        test_fg_map
+    };
     npcs[0] = &testNpc1;
     npcs[1] = &testNpc2;
     npcs[2] = &testNpc3;
@@ -129,6 +138,11 @@ int main( void )
     sprite_t *cursor = malloc( dfs_size( fp ) );
     dfs_read( cursor, 1, dfs_size( fp ), fp );
     dfs_close( fp );
+    
+    fp = dfs_open("/tileset.sprite");
+    sprite_t *map_tile = malloc( dfs_size( fp ) );
+    dfs_read( map_tile, 1, dfs_size( fp ), fp );
+    dfs_close( fp );
 
     player_init(&player, aang, (Vector2){ -32, 0 });
 
@@ -168,44 +182,44 @@ int main( void )
         */
         // graphics_draw_text( disp, ((disp->width * 7.0f) / 20.0f), 20, "@BreadCodes" );
         
-        if (DEBUG) {
-            int lenX = snprintf(NULL, 0, "%d", player.actor.toPosition.x);
-            char *resultX = malloc(lenX + 1);
-            snprintf(resultX, lenX + 1, "%d", player.actor.toPosition.x);
-            graphics_draw_text( disp, ((disp->width * 7.0f) / 20.0f), 10, resultX );
-            free(resultX);
+        // if (DEBUG) {
+        //     int lenX = snprintf(NULL, 0, "%d", player.actor.toPosition.x);
+        //     char *resultX = malloc(lenX + 1);
+        //     snprintf(resultX, lenX + 1, "%d", player.actor.toPosition.x);
+        //     graphics_draw_text( disp, ((disp->width * 7.0f) / 20.0f), 10, resultX );
+        //     free(resultX);
 
-            int lenY = snprintf(NULL, 0, "%d", player.actor.toPosition.y);
-            char *resultY = malloc(lenY + 1);
-            snprintf(resultY, lenY + 1, "%d", player.actor.toPosition.y);
-            graphics_draw_text( disp, ((disp->width * 7.0f) / 20.0f), 30, resultY );
-            free(resultY);
+        //     int lenY = snprintf(NULL, 0, "%d", player.actor.toPosition.y);
+        //     char *resultY = malloc(lenY + 1);
+        //     snprintf(resultY, lenY + 1, "%d", player.actor.toPosition.y);
+        //     graphics_draw_text( disp, ((disp->width * 7.0f) / 20.0f), 30, resultY );
+        //     free(resultY);
 
-            int lenMC = snprintf(NULL, 0, "%u", player.actor.movementCounter);
-            char *resultMC = malloc(lenMC + 1);
-            snprintf(resultMC, lenMC + 1, "%u", player.actor.movementCounter);
-            graphics_draw_text( disp, ((disp->width * 7.0f) / 20.0f), 50, resultMC );
-            free(resultMC);
+        //     int lenMC = snprintf(NULL, 0, "%u", player.actor.movementCounter);
+        //     char *resultMC = malloc(lenMC + 1);
+        //     snprintf(resultMC, lenMC + 1, "%u", player.actor.movementCounter);
+        //     graphics_draw_text( disp, ((disp->width * 7.0f) / 20.0f), 50, resultMC );
+        //     free(resultMC);
 
-            int lenController1 = snprintf(NULL, 0, BIT32_TO_BINARY_PATTERN, U32_TO_BINARY(controllerData1));
-            char *resultController1 = malloc(lenController1 + 1);
-            snprintf(resultController1, lenController1 + 1, BIT32_TO_BINARY_PATTERN, U32_TO_BINARY(controllerData1));
-            graphics_draw_text( disp, 10, 70, resultController1 );
-            free(resultController1);
+        //     int lenController1 = snprintf(NULL, 0, BIT32_TO_BINARY_PATTERN, U32_TO_BINARY(controllerData1));
+        //     char *resultController1 = malloc(lenController1 + 1);
+        //     snprintf(resultController1, lenController1 + 1, BIT32_TO_BINARY_PATTERN, U32_TO_BINARY(controllerData1));
+        //     graphics_draw_text( disp, 10, 70, resultController1 );
+        //     free(resultController1);
 
-            int lenController2 = snprintf(NULL, 0, BIT32_TO_BINARY_PATTERN, U32_TO_BINARY(controllerData2));
-            char *resultController2 = malloc(lenController2 + 1);
-            snprintf(resultController2, lenController2 + 1, BIT32_TO_BINARY_PATTERN, U32_TO_BINARY(controllerData2));
-            graphics_draw_text( disp, 10, 90, resultController2 );
-            free(resultController2);
+        //     int lenController2 = snprintf(NULL, 0, BIT32_TO_BINARY_PATTERN, U32_TO_BINARY(controllerData2));
+        //     char *resultController2 = malloc(lenController2 + 1);
+        //     snprintf(resultController2, lenController2 + 1, BIT32_TO_BINARY_PATTERN, U32_TO_BINARY(controllerData2));
+        //     graphics_draw_text( disp, 10, 90, resultController2 );
+        //     free(resultController2);
 
-            MouseData mouseData = get_mouse_value(controllerData2);
-            int lenMouseXY = snprintf(NULL, 0, "%d, %d", mouseData.deltaX, mouseData.deltaY);
-            char *resultMouseXY = malloc(lenMouseXY + 1);
-            snprintf(resultMouseXY, lenMouseXY + 1, "%d, %d", mouseData.deltaX, mouseData.deltaY);
-            graphics_draw_text( disp, ((disp->width * 7.0f) / 20.0f), 110, resultMouseXY );
-            free(resultMouseXY);
-        }
+        //     MouseData mouseData = get_mouse_value(controllerData2);
+        //     int lenMouseXY = snprintf(NULL, 0, "%d, %d", mouseData.deltaX, mouseData.deltaY);
+        //     char *resultMouseXY = malloc(lenMouseXY + 1);
+        //     snprintf(resultMouseXY, lenMouseXY + 1, "%d, %d", mouseData.deltaX, mouseData.deltaY);
+        //     graphics_draw_text( disp, ((disp->width * 7.0f) / 20.0f), 110, resultMouseXY );
+        //     free(resultMouseXY);
+        // }
 
 #pragma region RDP Commands
         /* Assure RDP is ready for new commands */
@@ -220,6 +234,8 @@ int main( void )
         /* Attach RDP to display */
         rdp_attach_display( disp );
 #pragma endregion Commands
+
+        map_draw(&testMap, map_tile);
 
         for (size_t i = 0; i < npcs_count; i++) {
             npc_draw(npcs[i], animcounter);

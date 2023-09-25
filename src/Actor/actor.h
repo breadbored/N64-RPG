@@ -34,8 +34,6 @@ void actor_init(actor_t *actor, sprite_t *sprite, Vector2 position);
 
 int actor_frame(actor_t *actor, uint32_t *animcounter);
 
-Vector2 get_screen_coordinates(Vector2 position);
-
 void actor_draw(actor_t *actor, uint32_t *animcounter);
 
 bool will_collide(Vector2 toPosition);

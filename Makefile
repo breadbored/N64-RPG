@@ -4,7 +4,7 @@ all: breadcodes.z64
 BUILD_DIR = build
 include $(N64_INST)/include/n64.mk
 
-SRC = src/main.c src/globals.c src/utils.c src/Actor/actor.c src/Actor/player.c src/Actor/npc.c
+SRC = src/main.c src/globals.c src/utils.c src/Actor/actor.c src/Actor/player.c src/Actor/npc.c src/Maps/map.c
 OBJS = $(SRC:%.c=$(BUILD_DIR)/%.o)
 DEPS = $(SRC:%.c=$(BUILD_DIR)/%.d)
 
@@ -31,6 +31,7 @@ assets:
 	mksprite 16 9 2 assets/yugi.png filesystem/yugi.sprite
 	mksprite 16 9 1 assets/rick.png filesystem/rick.sprite
 	mksprite 16 1 1 assets/cursor.png filesystem/cursor.sprite
+	mksprite 16 8 133 assets/tileset.png filesystem/tileset.sprite
 .PHONY: assets
 
 libdragon-tools:

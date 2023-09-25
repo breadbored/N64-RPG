@@ -1,6 +1,7 @@
 #include <libdragon.h>
 #include <math.h>
 #include "utils.h"
+#include "globals.h"
 
 static uint32_t rand_state = 8888;
 uint32_t rand(void) {
@@ -53,5 +54,18 @@ MouseData get_mouse_value( uint32_t controllerData )
     value.B = (controllerData & 0x40000000) != 0;
     value.deltaX =      (signed char)(((controllerData & 0x0000FF00) >> 8) & 0xFF);
     value.deltaY = -1 * (signed char)( (controllerData & 0x000000FF)       & 0xFF);
+    return value;
+}
+
+Vector2 get_screen_coordinates(Vector2 position) {
+    Vector2 screen_coordinates;
+    screen_coordinates.x = position.x - screen_relative_position.x + ((screen_size.x / 2) - 16);
+    screen_coordinates.y = position.y - screen_relative_position.y + ((screen_size.y / 2) - 16);
+    return screen_coordinates;
+}
+
+int clamp(int value, int min, int max) {
+    if (value < min) return min;
+    if (value > max) return max;
     return value;
 }
