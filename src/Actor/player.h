@@ -35,7 +35,7 @@ typedef struct controller_state_t {
 
 void player_init(player_t *player, sprite_t *sprite, Vector2 position);
 
-void player_update(player_t *player, uint32_t animcounter);
+void player_draw(player_t *player, uint32_t animcounter);
 
 void player_handle_controller(player_t *player, controller_state_t *controller_state);
 

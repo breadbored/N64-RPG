@@ -225,7 +225,7 @@ int main( void )
             npc_draw(npcs[i], animcounter);
         }
 
-        player_update(&player, animcounter);
+        player_draw(&player, animcounter);
 
         /* Inform the RDP we are finished drawing and that any pending operations should be flushed */
         rdp_detach_display();
