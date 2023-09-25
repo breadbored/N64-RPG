@@ -6,8 +6,8 @@
 
 Vector2 get_screen_position(Vector2 position) {
     return (Vector2) {
-        position.x - screen_relative_position.x,
-        position.y - screen_relative_position.y
+        position.x - screen_relative_position.x + ((screen_size.x / 2) - 16),
+        position.y - screen_relative_position.y + ((screen_size.y / 2) - 16)
     };
 }
 

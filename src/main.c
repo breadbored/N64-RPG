@@ -144,7 +144,7 @@ int main( void )
     dfs_read( map_tile, 1, dfs_size( fp ), fp );
     dfs_close( fp );
 
-    player_init(&player, aang, (Vector2){ -32, 0 });
+    player_init(&player, aang, (Vector2){ (test_map.width * 32) / 2, (test_map.height * 32) / 2 });
 
     for (int i = 0; i < npcs_count; i++) {
         sprite_t* sprite = i % 3 == 0 ? rick : i % 3 == 1 ? peach : i % 3 == 2 ? yugi : aang;
