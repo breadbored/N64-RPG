@@ -23,7 +23,7 @@ map_items_t test_fg_map[150] = {
     NONE, NONE, NONE, TREE_LIGHT_BL,    TREE_LIGHT_BR,  NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE,           NONE,
     NONE, NONE, NONE, NONE,             NONE,           NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE,           NONE,
     NONE, NONE, NONE, NONE,             NONE,           NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE,           NONE,
-}; // All default to 0 / NONE
+}; // All default to 0
 
 map_t test_map = {
     test_map_width,

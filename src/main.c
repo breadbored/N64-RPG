@@ -71,7 +71,9 @@ void controller_handle(void) {
     controller_1_state.y = keys.c[0].y;
     controller_1_state.data = keys.c[0].data;
 
-    player_handle_controller(&player, &controller_1_state);
+    if (!menu_open) {
+        player_handle_controller(&player, &controller_1_state);
+    }
 
     // Cursor Movement
     MouseData mouseData = get_mouse_value(controllerData2);

@@ -15,5 +15,6 @@ extern Vector2 screen_relative_position;
 extern npc_t *npcs[32];
 extern size_t npcs_count;
 extern player_t player;
+extern bool menu_open;
 
 #endif /* __BREADCODES_GLOBALS_H */
