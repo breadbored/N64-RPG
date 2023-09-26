@@ -11,16 +11,16 @@ Vector2 get_screen_position(Vector2 position) {
     };
 }
 
-void draw_section(map_t *map, sprite_t *sprite, map_items_t *tilemap) {
+void draw_section(map_t *map, sprite_t *sprite, int *tilemap) {
     // Because rdp_load_texture_stride is expensive and causes a frame drop when called many times, 
     // we only load the texture when it changes.
     // This can be heavily optimized further by presorting an array of the texture index and 
     // vector2 of the tile coordinates.
     // That could be used to only load a texture once for all tiles of that type.
-    map_items_t last_tile_texture = NONE;
+    int last_tile_texture = NONE;
     for (size_t x = 0; x < map->width; x++) {
         for (size_t y = 0; y < map->height; y++) {
-            map_items_t tile = tilemap[x + y * map->width];
+            int tile = tilemap[x + y * map->width];
             if (tile == NONE) continue;
             Vector2 screen_position = get_screen_position((Vector2) { x * 32, y * 32 });
             if (screen_position.x < -32 || screen_position.x > screen_size.x + 32 || screen_position.y < -32 || screen_position.y > screen_size.y + 32) {

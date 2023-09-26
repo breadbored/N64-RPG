@@ -38,8 +38,8 @@ typedef enum map_items_t {
 typedef struct map_t {
     int width;
     int height;
-    map_items_t *bg_map;
-    map_items_t *fg_map;
+    int *bg_map;
+    int *fg_map;
     npc_t **npcs;
     uint8_t npcs_count;
 } map_t;

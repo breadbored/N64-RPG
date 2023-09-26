@@ -20,8 +20,8 @@ npc_t testNpc7;
 
 const int test_map_width = 15;
 const int test_map_height = 10;
-map_items_t test_bg_map[150]; // All default to 0 / GRASS
-map_items_t test_fg_map[150] = {
+int test_bg_map[150]; // All default to 0 / GRASS
+int test_fg_map[150] = {
     NONE, NONE, NONE, NONE,             NONE,           NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, TREE_DARK_TL,  TREE_DARK_TR,
     NONE, NONE, NONE, NONE,             NONE,           NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, TREE_DARK_BL,  TREE_DARK_BR,
     NONE, NONE, NONE, NONE,             NONE,           NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE, NONE,          NONE,

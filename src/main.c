@@ -7,7 +7,7 @@
 #include "globals.h"
 #include "utils.h"
 #include "Maps/map.h"
-#include "Maps/test_map.h"
+#include "Maps/overworld_map.h"
 #include "Actor/actor.h"
 #include "Actor/player.h"
 #include "Actor/npc.h"
@@ -101,10 +101,10 @@ int main( void )
     timer_init();
     load_textures();
 
-    npcs_count = test_map.npcs_count;
+    npcs_count = overworld_map.npcs_count;
     for(int i = 0; i < 32; i++) {
-        if (i < test_map.npcs_count) {
-            npcs[i] = test_map.npcs[i];
+        if (i < overworld_map.npcs_count) {
+            npcs[i] = overworld_map.npcs[i];
 
             sprite_t* sprite = i % 3 == 0 ? rick_sprite : i % 3 == 1 ? peach_sprite : i % 3 == 2 ? yugi_sprite : aang_sprite;
             int ranAction = random_int(0, 8);
@@ -112,13 +112,13 @@ int main( void )
             int ranDir = random_int(0, 8);
             direction_t direction = ranDir % 4 == 0 ? Up : ranDir % 4 == 1 ? Down : ranDir % 4 == 2 ? Left : Right;
             
-            npc_init(npcs[i], sprite, (Vector2){ 32 * i + 32, 32 * (i % 2) + 32 }, direction, action, 10, 3);
+            npc_init(npcs[i], sprite, (Vector2){ 32 * i + 64, 32 * (i % 2) + 64 }, direction, action, 10, 3);
         } else {
             npcs[i] = NULL; // Clear all NPCs in buffer
         }
     }
 
-    player_init(&player, aang_sprite, (Vector2){ (test_map.width * 32) / 2, (test_map.height * 32) / 2 });
+    player_init(&player, aang_sprite, (Vector2){ (overworld_map.width * 32) / 2, (overworld_map.height * 32) / 2 });
 
     /* Kick off animation update timer to fire thirty times a second */
     new_timer(TIMER_TICKS(1000000 / 30), TF_CONTINUOUS, update);
@@ -147,10 +147,10 @@ int main( void )
         */
         // graphics_draw_text( disp, ((disp->width * 7.0f) / 20.0f), 20, "@BreadCodes" );
         
-        // for (int i = 0; i < test_map.npcs_count; i++) {
-        //     int lenX = snprintf(NULL, 0, "%d", test_map.npcs[i]->action);
+        // for (int i = 0; i < overworld_map.npcs_count; i++) {
+        //     int lenX = snprintf(NULL, 0, "%d", overworld_map.npcs[i]->action);
         //     char *resultX = malloc(lenX + 1);
-        //     snprintf(resultX, lenX + 1, "%d", test_map.npcs[i]->action);
+        //     snprintf(resultX, lenX + 1, "%d", overworld_map.npcs[i]->action);
         //     graphics_draw_text( disp, ((disp->width * 7.0f) / 20.0f), 10 + (20 * i), resultX );
         //     free(resultX);
         // }
@@ -208,7 +208,7 @@ int main( void )
         rdp_attach_display( disp );
 #pragma endregion Commands
 
-        map_draw(&test_map, map_tile_texture);
+        map_draw(&overworld_map, map_tile_texture);
 
         for (size_t i = 0; i < npcs_count; i++) {
             npc_draw(npcs[i], animcounter);
