@@ -8,11 +8,11 @@ This unnamed project is an attempt to write all the parts of an RPG from scratch
 - [x] NPCs
 - [x] Collision
 - [ ] Map Rendering
-  - [ ] Background (Landscape) Tilemap
-  - [ ] Foreground (Structure / Building) Tilemap
+  - [x] Background (Landscape) Tilemap
+  - [x] Foreground (Structure / Building) Tilemap
   - [ ] NPC Map Layer
   - [ ] Entrance/Exit Layer
     - [ ] Entrance/Exit Triggers
     - [ ] Map Switching
   - [ ] Map Builder (external tool)
-  - [ ] Tilemap Renderer from Tool's Binaries
+  - [ ] Tilemap Renderer from Map Builder's Binaries
