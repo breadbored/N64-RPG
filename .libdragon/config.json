@@ -1,5 +1,5 @@
 {
-  "imageName": "ghcr.io/dragonminded/libdragon:latest",
+  "imageName": "ghcr.io/dragonminded/libdragon:unstable",
   "vendorDirectory": "libdragon",
   "vendorStrategy": "submodule"
 }
