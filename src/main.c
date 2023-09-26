@@ -26,21 +26,8 @@ void update( int ovfl )
     controller_handle();
 }
 
-/**
- * Mouse State
- */
-Vector2 cursorPosition = { 0, 0 };
 uint32_t controllerData1 = 0x00000000;
 uint32_t controllerData2 = 0x00000000;
-
-map_t testMap;
-npc_t testNpc1;
-npc_t testNpc2;
-npc_t testNpc3;
-npc_t testNpc4;
-npc_t testNpc5;
-npc_t testNpc6;
-npc_t testNpc7;
 
 void controller_handle(void) {
     /* Do we need to switch video displays? */
@@ -74,11 +61,34 @@ void controller_handle(void) {
     if (!menu_open) {
         player_handle_controller(&player, &controller_1_state);
     }
+}
 
-    // Cursor Movement
-    MouseData mouseData = get_mouse_value(controllerData2);
-    cursorPosition.x += mouseData.deltaX;
-    cursorPosition.y += mouseData.deltaY;
+void load_textures(void) {
+    /* Read in single sprite */
+    int fp = dfs_open("/aang.sprite");
+    aang_sprite = malloc( dfs_size( fp ) );
+    dfs_read( aang_sprite, 1, dfs_size( fp ), fp );
+    dfs_close( fp );
+
+    fp = dfs_open("/peach.sprite");
+    peach_sprite = malloc( dfs_size( fp ) );
+    dfs_read( peach_sprite, 1, dfs_size( fp ), fp );
+    dfs_close( fp );
+
+    fp = dfs_open("/yugi.sprite");
+    yugi_sprite = malloc( dfs_size( fp ) );
+    dfs_read( yugi_sprite, 1, dfs_size( fp ), fp );
+    dfs_close( fp );
+
+    fp = dfs_open("/rick.sprite");
+    rick_sprite = malloc( dfs_size( fp ) );
+    dfs_read( rick_sprite, 1, dfs_size( fp ), fp );
+    dfs_close( fp );
+    
+    fp = dfs_open("/tileset.sprite");
+    map_tile_texture = malloc( dfs_size( fp ) );
+    dfs_read( map_tile_texture, 1, dfs_size( fp ), fp );
+    dfs_close( fp );
 }
 
 int main( void )
@@ -89,73 +99,26 @@ int main( void )
     rdp_init();
     controller_init();
     timer_init();
+    load_textures();
 
-    testMap = (map_t){
-        test_map_width,
-        test_map_height,
-        test_bg_map,
-        test_fg_map
-    };
-    npcs[0] = &testNpc1;
-    npcs[1] = &testNpc2;
-    npcs[2] = &testNpc3;
-    npcs[3] = &testNpc4;
-    npcs[4] = &testNpc5;
-    npcs[5] = &testNpc6;
-    npcs[6] = &testNpc7;
-    npcs_count = 7;
+    npcs_count = test_map.npcs_count;
+    for(int i = 0; i < 32; i++) {
+        if (i < test_map.npcs_count) {
+            npcs[i] = test_map.npcs[i];
 
-    /* Read in single sprite */
-    int fp = dfs_open("/mudkip.sprite");
-    sprite_t *mudkip = malloc( dfs_size( fp ) );
-    dfs_read( mudkip, 1, dfs_size( fp ), fp );
-    dfs_close( fp );
-
-    fp = dfs_open("/venusaur.sprite");
-    sprite_t *venusaur = malloc( dfs_size( fp ) );
-    dfs_read( venusaur, 1, dfs_size( fp ), fp );
-    dfs_close( fp );
-
-    fp = dfs_open("/aang.sprite");
-    sprite_t *aang = malloc( dfs_size( fp ) );
-    dfs_read( aang, 1, dfs_size( fp ), fp );
-    dfs_close( fp );
-
-    fp = dfs_open("/peach.sprite");
-    sprite_t *peach = malloc( dfs_size( fp ) );
-    dfs_read( peach, 1, dfs_size( fp ), fp );
-    dfs_close( fp );
-
-    fp = dfs_open("/yugi.sprite");
-    sprite_t *yugi = malloc( dfs_size( fp ) );
-    dfs_read( yugi, 1, dfs_size( fp ), fp );
-    dfs_close( fp );
-
-    fp = dfs_open("/rick.sprite");
-    sprite_t *rick = malloc( dfs_size( fp ) );
-    dfs_read( rick, 1, dfs_size( fp ), fp );
-    dfs_close( fp );
-    
-    fp = dfs_open("/cursor.sprite");
-    sprite_t *cursor = malloc( dfs_size( fp ) );
-    dfs_read( cursor, 1, dfs_size( fp ), fp );
-    dfs_close( fp );
-    
-    fp = dfs_open("/tileset.sprite");
-    sprite_t *map_tile = malloc( dfs_size( fp ) );
-    dfs_read( map_tile, 1, dfs_size( fp ), fp );
-    dfs_close( fp );
-
-    player_init(&player, aang, (Vector2){ (test_map.width * 32) / 2, (test_map.height * 32) / 2 });
-
-    for (int i = 0; i < npcs_count; i++) {
-        sprite_t* sprite = i % 3 == 0 ? rick : i % 3 == 1 ? peach : i % 3 == 2 ? yugi : aang;
-        int ranAction = random_int(0, 8);
-        npc_action_t action = ranAction % 4 == 0 ? Spin : ranAction % 4 == 1 ? Idle : ranAction % 4 == 2 ? Pace : Path;
-        int ranDir = random_int(0, 8);
-        direction_t direction = ranDir % 4 == 0 ? Up : ranDir % 4 == 1 ? Down : ranDir % 4 == 2 ? Left : Right;
-        npc_init(npcs[i], sprite, (Vector2){ 32 * i + 32, 32 * (i % 2) + 32 }, direction, action, 10, 3);
+            sprite_t* sprite = i % 3 == 0 ? rick_sprite : i % 3 == 1 ? peach_sprite : i % 3 == 2 ? yugi_sprite : aang_sprite;
+            int ranAction = random_int(0, 8);
+            npc_action_t action = ranAction % 4 == 0 ? Spin : ranAction % 4 == 1 ? Idle : ranAction % 4 == 2 ? Pace : Path;
+            int ranDir = random_int(0, 8);
+            direction_t direction = ranDir % 4 == 0 ? Up : ranDir % 4 == 1 ? Down : ranDir % 4 == 2 ? Left : Right;
+            
+            npc_init(npcs[i], sprite, (Vector2){ 32 * i + 32, 32 * (i % 2) + 32 }, direction, action, 10, 3);
+        } else {
+            npcs[i] = NULL; // Clear all NPCs in buffer
+        }
     }
+
+    player_init(&player, aang_sprite, (Vector2){ (test_map.width * 32) / 2, (test_map.height * 32) / 2 });
 
     /* Kick off animation update timer to fire thirty times a second */
     new_timer(TIMER_TICKS(1000000 / 30), TF_CONTINUOUS, update);
@@ -184,6 +147,14 @@ int main( void )
         */
         // graphics_draw_text( disp, ((disp->width * 7.0f) / 20.0f), 20, "@BreadCodes" );
         
+        // for (int i = 0; i < test_map.npcs_count; i++) {
+        //     int lenX = snprintf(NULL, 0, "%d", test_map.npcs[i]->action);
+        //     char *resultX = malloc(lenX + 1);
+        //     snprintf(resultX, lenX + 1, "%d", test_map.npcs[i]->action);
+        //     graphics_draw_text( disp, ((disp->width * 7.0f) / 20.0f), 10 + (20 * i), resultX );
+        //     free(resultX);
+        // }
+
         // if (DEBUG) {
         //     int lenX = snprintf(NULL, 0, "%d", player.actor.toPosition.x);
         //     char *resultX = malloc(lenX + 1);
@@ -237,7 +208,7 @@ int main( void )
         rdp_attach_display( disp );
 #pragma endregion Commands
 
-        map_draw(&testMap, map_tile);
+        map_draw(&test_map, map_tile_texture);
 
         for (size_t i = 0; i < npcs_count; i++) {
             npc_draw(npcs[i], animcounter);

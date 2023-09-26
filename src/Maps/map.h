@@ -40,6 +40,8 @@ typedef struct map_t {
     int height;
     map_items_t *bg_map;
     map_items_t *fg_map;
+    npc_t **npcs;
+    uint8_t npcs_count;
 } map_t;
 
 Vector2 get_screen_position(Vector2 position);
