@@ -38,14 +38,14 @@ typedef enum map_items_t {
 typedef struct map_t {
     int width;
     int height;
-    int *bg_map;
-    int *fg_map;
+    const int *bg_map;
+    const int *fg_map;
     npc_t **npcs;
     uint8_t npcs_count;
 } map_t;
 
 Vector2 get_screen_position(Vector2 position);
 
-void map_draw(map_t *map, sprite_t *sprite);
+void map_draw(map_t *map, sprite_t ***sprite_arr);
 
 #endif /* __MAP_H */

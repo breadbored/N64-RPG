@@ -15,7 +15,7 @@
 #define U32_TO_BINARY(final)   BYTE_TO_BINARY((final >> 24)), BYTE_TO_BINARY((final >> 16)), BYTE_TO_BINARY((final >> 8)), BYTE_TO_BINARY((final & 0xFF))
 
 int random_int(int lower, int upper);
-uint32_t rand(void);
+uint32_t rand_bc(void);
 
 typedef struct Vector2f
 {

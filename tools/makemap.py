@@ -10,11 +10,11 @@ npc_map = []
 def get_map_text(map):
     map_text = "    "
     for y in range(0, height):
-        if y > len(map):
+        if y > len(map) - 1:
             map_text += "-1, " * width
         else:
             for x in range(0, width):
-                if x > len(map[y]):
+                if x > len(map[y]) - 1:
                     map_text += "-1, "
                 else:
                     map_text += f"{map[y][x]}, "
@@ -55,10 +55,10 @@ npc_t {map_c_header_name}Npc1;
 
 const int {map_c_header_name}_map_width = {width};
 const int {map_c_header_name}_map_height = {height};
-int {map_c_header_name}_bg_map[{width * height}] = {{
+const int {map_c_header_name}_bg_map[{width * height}] = {{
 {get_map_text(bg_map)}
 }}; // All default to 0 / GRASS
-int {map_c_header_name}_fg_map[{width * height}] = {{
+const int {map_c_header_name}_fg_map[{width * height}] = {{
 {get_map_text(fg_map)}
 }}; // All default to 0
 npc_t *{map_c_header_name}_npcs[32] = {{

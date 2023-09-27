@@ -10,11 +10,29 @@
 #include "Actor/npc.h"
 #include "Actor/player.h"
 
+extern display_context_t disp;
 extern sprite_t *aang_sprite;
 extern sprite_t *peach_sprite;
 extern sprite_t *yugi_sprite;
 extern sprite_t *rick_sprite;
-extern sprite_t *map_tile_texture;
+extern sprite_t *map_tile_texture_0;
+extern sprite_t *map_tile_texture_1;
+extern sprite_t *map_tile_texture_2;
+extern sprite_t *map_tile_texture_3;
+extern sprite_t *map_tile_texture_4;
+extern sprite_t *map_tile_texture_5;
+extern sprite_t *map_tile_texture_6;
+extern sprite_t *map_tile_texture_7;
+extern sprite_t *map_tile_texture_8;
+extern sprite_t *map_tile_texture_9;
+extern sprite_t *map_tile_texture_10;
+extern sprite_t *map_tile_texture_11;
+extern sprite_t *map_tile_texture_12;
+extern sprite_t *map_tile_texture_13;
+extern sprite_t *map_tile_texture_14;
+extern sprite_t *map_tile_texture_15;
+extern sprite_t *map_tile_texture_16;
+extern sprite_t **map_tile_texture[17];
 extern Vector2 screen_size;
 extern Vector2 screen_relative_position;
 extern npc_t *npcs[32];

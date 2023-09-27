@@ -4,7 +4,7 @@
 #include "globals.h"
 
 static uint32_t rand_state = 8888;
-uint32_t rand(void) {
+uint32_t rand_bc(void) {
 	uint32_t x = rand_state;
 	x ^= x << 13;
 	x ^= x >> 7;
@@ -13,7 +13,7 @@ uint32_t rand(void) {
 }
 int random_int(int lower, int upper)
 {
-    return (rand() % (upper - lower + 1)) + lower;
+    return (rand_bc() % (upper - lower + 1)) + lower;
 }
 
 float lerpf( float a, float b, float t )

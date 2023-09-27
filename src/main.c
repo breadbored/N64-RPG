@@ -85,9 +85,73 @@ void load_textures(void) {
     dfs_read( rick_sprite, 1, dfs_size( fp ), fp );
     dfs_close( fp );
     
-    fp = dfs_open("/tileset.sprite");
-    map_tile_texture = malloc( dfs_size( fp ) );
-    dfs_read( map_tile_texture, 1, dfs_size( fp ), fp );
+    fp = dfs_open("/tileset_0.sprite");
+    map_tile_texture_0 = malloc( dfs_size( fp ) );
+    dfs_read( map_tile_texture_0, 1, dfs_size( fp ), fp );
+    dfs_close( fp );
+    fp = dfs_open("/tileset_1.sprite");
+    map_tile_texture_1 = malloc( dfs_size( fp ) );
+    dfs_read( map_tile_texture_1, 1, dfs_size( fp ), fp );
+    dfs_close( fp );
+    fp = dfs_open("/tileset_2.sprite");
+    map_tile_texture_2 = malloc( dfs_size( fp ) );
+    dfs_read( map_tile_texture_2, 1, dfs_size( fp ), fp );
+    dfs_close( fp );
+    fp = dfs_open("/tileset_3.sprite");
+    map_tile_texture_3 = malloc( dfs_size( fp ) );
+    dfs_read( map_tile_texture_3, 1, dfs_size( fp ), fp );
+    dfs_close( fp );
+    fp = dfs_open("/tileset_4.sprite");
+    map_tile_texture_4 = malloc( dfs_size( fp ) );
+    dfs_read( map_tile_texture_4, 1, dfs_size( fp ), fp );
+    dfs_close( fp );
+    fp = dfs_open("/tileset_5.sprite");
+    map_tile_texture_5 = malloc( dfs_size( fp ) );
+    dfs_read( map_tile_texture_5, 1, dfs_size( fp ), fp );
+    dfs_close( fp );
+    fp = dfs_open("/tileset_6.sprite");
+    map_tile_texture_6 = malloc( dfs_size( fp ) );
+    dfs_read( map_tile_texture_6, 1, dfs_size( fp ), fp );
+    dfs_close( fp );
+    fp = dfs_open("/tileset_7.sprite");
+    map_tile_texture_7 = malloc( dfs_size( fp ) );
+    dfs_read( map_tile_texture_7, 1, dfs_size( fp ), fp );
+    dfs_close( fp );
+    fp = dfs_open("/tileset_8.sprite");
+    map_tile_texture_8 = malloc( dfs_size( fp ) );
+    dfs_read( map_tile_texture_8, 1, dfs_size( fp ), fp );
+    dfs_close( fp );
+    fp = dfs_open("/tileset_9.sprite");
+    map_tile_texture_9 = malloc( dfs_size( fp ) );
+    dfs_read( map_tile_texture_9, 1, dfs_size( fp ), fp );
+    dfs_close( fp );
+    fp = dfs_open("/tileset_10.sprite");
+    map_tile_texture_10 = malloc( dfs_size( fp ) );
+    dfs_read( map_tile_texture_10, 1, dfs_size( fp ), fp );
+    dfs_close( fp );
+    fp = dfs_open("/tileset_11.sprite");
+    map_tile_texture_11 = malloc( dfs_size( fp ) );
+    dfs_read( map_tile_texture_11, 1, dfs_size( fp ), fp );
+    dfs_close( fp );
+    fp = dfs_open("/tileset_12.sprite");
+    map_tile_texture_12 = malloc( dfs_size( fp ) );
+    dfs_read( map_tile_texture_12, 1, dfs_size( fp ), fp );
+    dfs_close( fp );
+    fp = dfs_open("/tileset_13.sprite");
+    map_tile_texture_13 = malloc( dfs_size( fp ) );
+    dfs_read( map_tile_texture_13, 1, dfs_size( fp ), fp );
+    dfs_close( fp );
+    fp = dfs_open("/tileset_14.sprite");
+    map_tile_texture_14 = malloc( dfs_size( fp ) );
+    dfs_read( map_tile_texture_14, 1, dfs_size( fp ), fp );
+    dfs_close( fp );
+    fp = dfs_open("/tileset_15.sprite");
+    map_tile_texture_15 = malloc( dfs_size( fp ) );
+    dfs_read( map_tile_texture_15, 1, dfs_size( fp ), fp );
+    dfs_close( fp );
+    fp = dfs_open("/tileset_16.sprite");
+    map_tile_texture_16 = malloc( dfs_size( fp ) );
+    dfs_read( map_tile_texture_16, 1, dfs_size( fp ), fp );
     dfs_close( fp );
 }
 
@@ -126,7 +190,7 @@ int main( void )
     /* Main loop test */
     while(1) 
     {
-        static display_context_t disp = 0;
+        disp = 0;
 
         /* Grab a render buffer */
         while( !(disp = display_lock()) );

@@ -1,5 +1,7 @@
 #include <libdragon.h>
 #include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "../globals.h"
 #include "../utils.h"
 #include "map.h"
@@ -11,7 +13,7 @@ Vector2 get_screen_position(Vector2 position) {
     };
 }
 
-void draw_section(map_t *map, sprite_t *sprite, int *tilemap) {
+void draw_section(map_t *map, sprite_t **sprite_arr, const int *tilemap) {
     // Because rdp_load_texture_stride is expensive and causes a frame drop when called many times, 
     // we only load the texture when it changes.
     // This can be heavily optimized further by presorting an array of the texture index and 
@@ -26,9 +28,10 @@ void draw_section(map_t *map, sprite_t *sprite, int *tilemap) {
             if (screen_position.x < -32 || screen_position.x > screen_size.x + 32 || screen_position.y < -32 || screen_position.y > screen_size.y + 32) {
                 continue;
             }
-            rdp_sync( SYNC_PIPE );
             if (last_tile_texture != tile) {
-                rdp_load_texture_stride( 0, 0, MIRROR_DISABLED, sprite, tile );
+                sprite_t *sprite = *(map_tile_texture[tile / (8*8)]);
+                rdp_sync( SYNC_PIPE );
+                rdp_load_texture_stride( 0, 0, MIRROR_DISABLED, sprite, tile % (8*8) );
                 last_tile_texture = tile;
             }
             rdp_draw_sprite( 0, screen_position.x, screen_position.y, MIRROR_DISABLED );
@@ -36,8 +39,8 @@ void draw_section(map_t *map, sprite_t *sprite, int *tilemap) {
     }
 }
 
-void map_draw(map_t *map, sprite_t *sprite)
+void map_draw(map_t *map, sprite_t ***sprite_arr)
 {
-    draw_section(map, sprite, map->bg_map);
-    draw_section(map, sprite, map->fg_map);
+    draw_section(map, (*sprite_arr), map->bg_map);
+    draw_section(map, (*sprite_arr), map->fg_map);
 }
