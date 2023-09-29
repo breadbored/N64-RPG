@@ -12,6 +12,12 @@ Vector2 get_screen_position(Vector2 position) {
         position.y - screen_relative_position.y + ((screen_size.y / 2) - 16)
     };
 }
+Vector2 get_prior_screen_position(Vector2 position) {
+    return (Vector2) {
+        position.x - screen_relative_position_prior.x + ((screen_size.x / 2) - 16),
+        position.y - screen_relative_position_prior.y + ((screen_size.y / 2) - 16)
+    };
+}
 
 Vector2 get_map_position(Vector2 position) {
     return (Vector2) {
@@ -28,7 +34,7 @@ int mmax(int a, int b) {
     return a > b ? a : b;
 }
 
-void draw_section(map_t *map, sprite_t **sprite_arr, const int *tilemap) {
+void draw_section(map_t *map, sprite_t **sprite_arr, const int *tilemap, bool rendered_after_player) {
     Vector2 start_position = get_map_position((Vector2) { -32, -32 });
     Vector2 end_position = get_map_position((Vector2) { screen_size.x + 32, screen_size.y + 32 });
     Vector2 start_tile = (Vector2) { start_position.x / 32, start_position.y / 32 };
@@ -42,7 +48,9 @@ void draw_section(map_t *map, sprite_t **sprite_arr, const int *tilemap) {
     int last_tile_texture = NONE;
     for (size_t x = start_tile.x; x < end_tile.x; x++) {
         for (size_t y = start_tile.y; y < end_tile.y; y++) {
-            Vector2 screen_position = get_screen_position((Vector2) { x * 32, y * 32 });
+            Vector2 screen_position = rendered_after_player ? 
+                get_prior_screen_position((Vector2) { x * 32, y * 32 }) :   // Only for layers rendered after the player
+                get_screen_position((Vector2) { x * 32, y * 32 });          // Only for layers rendered before the player
 
             // If the coord is outside the map, render default grass
             if (x < 0 || y < 0 || x >= map->width || y >= map->height) {
@@ -80,13 +88,14 @@ void draw_section(map_t *map, sprite_t **sprite_arr, const int *tilemap) {
 void map_draw(map_t *map, sprite_t ***sprite_arr, uint8_t layer)
 {
     if (layer == 0) {
-        draw_section(map, (*sprite_arr), map->bg_map);
+        draw_section(map, (*sprite_arr), map->bg_map, false);
         return;
     } else if (layer == 1) {
-        draw_section(map, (*sprite_arr), map->fg0_map);
+        draw_section(map, (*sprite_arr), map->fg0_map, false);
         return;
     } else if (layer == 2) {
-        draw_section(map, (*sprite_arr), map->fg1_map);
+        // Since this layer comes after the player (to layer over them), we need to adjust the offset
+        draw_section(map, (*sprite_arr), map->fg1_map, true);
         return;
     }
 }

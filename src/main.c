@@ -271,13 +271,9 @@ int main( void )
         /* Attach RDP to display */
         rdp_attach_display( disp );
 #pragma endregion Commands
-
-
-        screen_relative_position.x = (&player)->actor.position.x;
-        screen_relative_position.y = (&player)->actor.position.y;
         
         map_draw(&overworld_map, map_tile_texture, 0); // Background
-        map_draw(&overworld_map, map_tile_texture, 1); // Layer 0 Foreground
+        map_draw(&overworld_map, map_tile_texture, 1); // Layer 0 Foregrounds
 
         for (size_t i = 0; i < npcs_count; i++) {
             npc_draw(npcs[i], animcounter);

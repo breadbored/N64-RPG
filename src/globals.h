@@ -35,6 +35,7 @@ extern sprite_t *map_tile_texture_16;
 extern sprite_t **map_tile_texture[17];
 extern Vector2 screen_size;
 extern Vector2 screen_relative_position;
+extern Vector2 screen_relative_position_prior;
 extern npc_t *npcs[32];
 extern size_t npcs_count;
 extern player_t player;

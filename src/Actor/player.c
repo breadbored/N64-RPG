@@ -14,6 +14,14 @@ void player_init(player_t *player, sprite_t *sprite, Vector2 position)
 
 void player_draw(player_t *player, uint32_t animcounter)
 {
+    // This is only used to fix values for layers rendered after the player
+    screen_relative_position_prior.x = screen_relative_position.x;
+    screen_relative_position_prior.y = screen_relative_position.y;
+
+    // This is used to calculate the screen position of the camera
+    screen_relative_position.x = player->actor.position.x;
+    screen_relative_position.y = player->actor.position.y;
+    
     actor_draw(&(player->actor), &animcounter);
 }
 

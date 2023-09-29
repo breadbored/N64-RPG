@@ -46,6 +46,7 @@ sprite_t **map_tile_texture[17] = {
 };
 Vector2 screen_size = { 0, 0 };
 Vector2 screen_relative_position = { 0, 0 };
+Vector2 screen_relative_position_prior = { 0, 0 };
 npc_t *npcs[32];
 size_t npcs_count = 0;
 player_t player;
