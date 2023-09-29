@@ -39,7 +39,8 @@ typedef struct map_t {
     int width;
     int height;
     const int *bg_map;
-    const int *fg_map;
+    const int *fg0_map;
+    const int *fg1_map;
     npc_t **npcs;
     uint8_t npcs_count;
 } map_t;

@@ -4,7 +4,8 @@ import csv
 width = 0
 height = 0
 bg_map = []
-fg_map = []
+fg0_map = []
+fg1_map = []
 npc_map = []
 
 def get_map_text(map):
@@ -30,10 +31,14 @@ with open('map/overworld._background.csv', 'r') as f:
     bg_map = data
 
 # Parse the foreground map where every row is the X coordinate and every column is the Y coordinate
-with open('map/overworld._foreground.csv', 'r') as f:
+with open('map/overworld._foreground-0.csv', 'r') as f:
     reader = csv.reader(f)
     data = list(reader)
-    fg_map = data
+    fg0_map = data
+with open('map/overworld._foreground-1.csv', 'r') as f:
+    reader = csv.reader(f)
+    data = list(reader)
+    fg1_map = data
 
 map_c_header_name = "overworld"
 map_c_header = f"""
@@ -58,8 +63,11 @@ const int {map_c_header_name}_map_height = {height};
 const int {map_c_header_name}_bg_map[{width * height}] = {{
 {get_map_text(bg_map)}
 }}; // All default to 0 / GRASS
-const int {map_c_header_name}_fg_map[{width * height}] = {{
-{get_map_text(fg_map)}
+const int {map_c_header_name}_fg0_map[{width * height}] = {{
+{get_map_text(fg0_map)}
+}}; // All default to 0
+const int {map_c_header_name}_fg1_map[{width * height}] = {{
+{get_map_text(fg1_map)}
 }}; // All default to 0
 npc_t *{map_c_header_name}_npcs[32] = {{
     &{map_c_header_name}Npc1,
@@ -70,7 +78,8 @@ map_t {map_c_header_name}_map = {{
     {map_c_header_name}_map_width,
     {map_c_header_name}_map_height,
     {map_c_header_name}_bg_map,
-    {map_c_header_name}_fg_map,
+    {map_c_header_name}_fg0_map,
+    {map_c_header_name}_fg1_map,
     {map_c_header_name}_npcs,
     {map_c_header_name}_npcs_length,
 }};

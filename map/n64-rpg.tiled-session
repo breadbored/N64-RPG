@@ -3,10 +3,23 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "overworld.tmx",
     "expandedProjectPaths": [
+        "."
     ],
     "fileStates": {
+        "overworld-tileset.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "overworld.tmx": {
+            "scale": 3.0043,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1307.6257364444295,
+                "y": 1176.646806244383
+            }
+        }
     },
     "last.exportedFilePath": "/Users/jasoncarpenter/n64/test/map",
     "last.imagePath": "/Users/jasoncarpenter/n64/test/assets",
@@ -14,9 +27,12 @@
     "map.lastUsedExportFilter": "CSV files (*.csv)",
     "map.lastUsedFormat": "tmx",
     "openFiles": [
+        "overworld.tmx"
     ],
     "project": "n64-rpg.tiled-project",
     "recentFiles": [
+        "overworld.tmx",
+        "overworld-tileset.tsx"
     ],
     "tileset.lastUsedFormat": "tsx"
 }
