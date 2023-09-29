@@ -40,14 +40,32 @@ void draw_section(map_t *map, sprite_t **sprite_arr, const int *tilemap) {
     // vector2 of the tile coordinates.
     // That could be used to only load a texture once for all tiles of that type.
     int last_tile_texture = NONE;
-    for (size_t x = mmax(start_tile.x, 0); x < mmin(end_tile.x, map->width); x++) {
-        for (size_t y = mmax(start_tile.y, 0); y < mmin(end_tile.y, map->height); y++) {
+    for (size_t x = start_tile.x; x < end_tile.x; x++) {
+        for (size_t y = start_tile.y; y < end_tile.y; y++) {
+            Vector2 screen_position = get_screen_position((Vector2) { x * 32, y * 32 });
+
+            // If the coord is outside the map, render default grass
+            if (x < 0 || y < 0 || x >= map->width || y >= map->height) {
+                if (last_tile_texture != GRASS_DARK) {
+                    sprite_t *sprite = *(map_tile_texture[GRASS_DARK / (8*8)]);
+                    rdp_sync( SYNC_PIPE );
+                    rdp_load_texture_stride( 0, 0, MIRROR_DISABLED, sprite, GRASS_DARK % (8*8) );
+                    last_tile_texture = GRASS_DARK;
+                }
+                rdp_draw_sprite( 0, screen_position.x, screen_position.y, MIRROR_DISABLED );
+                continue; // Skip everything else
+            }
+
+            // If the tile is empty, don't render
             int tile = tilemap[x + y * map->width];
             if (tile == NONE) continue;
-            Vector2 screen_position = get_screen_position((Vector2) { x * 32, y * 32 });
+
+            // If the tile is outside the screen, don't render
             if (screen_position.x < -32 || screen_position.x > screen_size.x + 32 || screen_position.y < -32 || screen_position.y > screen_size.y + 32) {
                 continue;
             }
+
+            // Only load textures as often as they change, and only load the texture if it's not already loaded
             if (last_tile_texture != tile) {
                 sprite_t *sprite = *(map_tile_texture[tile / (8*8)]);
                 rdp_sync( SYNC_PIPE );
@@ -59,9 +77,16 @@ void draw_section(map_t *map, sprite_t **sprite_arr, const int *tilemap) {
     }
 }
 
-void map_draw(map_t *map, sprite_t ***sprite_arr)
+void map_draw(map_t *map, sprite_t ***sprite_arr, uint8_t layer)
 {
-    draw_section(map, (*sprite_arr), map->bg_map);
-    draw_section(map, (*sprite_arr), map->fg0_map);
-    draw_section(map, (*sprite_arr), map->fg1_map);
+    if (layer == 0) {
+        draw_section(map, (*sprite_arr), map->bg_map);
+        return;
+    } else if (layer == 1) {
+        draw_section(map, (*sprite_arr), map->fg0_map);
+        return;
+    } else if (layer == 2) {
+        draw_section(map, (*sprite_arr), map->fg1_map);
+        return;
+    }
 }

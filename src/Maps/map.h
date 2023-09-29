@@ -47,6 +47,6 @@ typedef struct map_t {
 
 Vector2 get_screen_position(Vector2 position);
 
-void map_draw(map_t *map, sprite_t ***sprite_arr);
+void map_draw(map_t *map, sprite_t ***sprite_arr, uint8_t layer);
 
 #endif /* __MAP_H */

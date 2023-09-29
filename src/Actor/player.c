@@ -14,8 +14,6 @@ void player_init(player_t *player, sprite_t *sprite, Vector2 position)
 
 void player_draw(player_t *player, uint32_t animcounter)
 {
-    screen_relative_position.x = player->actor.position.x;
-    screen_relative_position.y = player->actor.position.y;
     actor_draw(&(player->actor), &animcounter);
 }
 

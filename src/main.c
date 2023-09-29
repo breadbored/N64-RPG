@@ -272,13 +272,20 @@ int main( void )
         rdp_attach_display( disp );
 #pragma endregion Commands
 
-        map_draw(&overworld_map, map_tile_texture);
+
+        screen_relative_position.x = (&player)->actor.position.x;
+        screen_relative_position.y = (&player)->actor.position.y;
+        
+        map_draw(&overworld_map, map_tile_texture, 0); // Background
+        map_draw(&overworld_map, map_tile_texture, 1); // Layer 0 Foreground
 
         for (size_t i = 0; i < npcs_count; i++) {
             npc_draw(npcs[i], animcounter);
         }
 
         player_draw(&player, animcounter);
+
+        map_draw(&overworld_map, map_tile_texture, 2); // Layer 1 Foreground
 
         /* Inform the RDP we are finished drawing and that any pending operations should be flushed */
         rdp_detach_display();
