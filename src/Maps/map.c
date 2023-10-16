@@ -46,8 +46,8 @@ void draw_section(map_t *map, sprite_t **sprite_arr, const int *tilemap, bool re
     // vector2 of the tile coordinates.
     // That could be used to only load a texture once for all tiles of that type.
     int last_tile_texture = NONE;
-    for (size_t x = start_tile.x; x < end_tile.x; x++) {
-        for (size_t y = start_tile.y; y < end_tile.y; y++) {
+    for (int x = start_tile.x; x < end_tile.x; x++) {
+        for (int y = start_tile.y; y < end_tile.y; y++) {
             Vector2 screen_position = rendered_after_player ? 
                 get_prior_screen_position((Vector2) { x * 32, y * 32 }) :   // Only for layers rendered after the player
                 get_screen_position((Vector2) { x * 32, y * 32 });          // Only for layers rendered before the player

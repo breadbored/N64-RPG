@@ -7,6 +7,7 @@ bg_map = []
 fg0_map = []
 fg1_map = []
 npc_map = []
+collision_map = []
 
 def get_map_text(map):
     map_text = "    "
@@ -40,6 +41,11 @@ with open('map/overworld._foreground-1.csv', 'r') as f:
     data = list(reader)
     fg1_map = data
 
+with open('map/overworld._collision.csv', 'r') as f:
+    reader = csv.reader(f)
+    data = list(reader)
+    collision_map = data
+
 map_c_header_name = "overworld"
 map_c_header = f"""
 /**
@@ -69,6 +75,9 @@ const int {map_c_header_name}_fg0_map[{width * height}] = {{
 const int {map_c_header_name}_fg1_map[{width * height}] = {{
 {get_map_text(fg1_map)}
 }}; // All default to 0
+const int {map_c_header_name}_collision_map[{width * height}] = {{
+{get_map_text(collision_map)}
+}}; // All default to 0
 npc_t *{map_c_header_name}_npcs[32] = {{
     &{map_c_header_name}Npc1,
 }};
@@ -80,6 +89,7 @@ map_t {map_c_header_name}_map = {{
     {map_c_header_name}_bg_map,
     {map_c_header_name}_fg0_map,
     {map_c_header_name}_fg1_map,
+    {map_c_header_name}_collision_map,
     {map_c_header_name}_npcs,
     {map_c_header_name}_npcs_length,
 }};

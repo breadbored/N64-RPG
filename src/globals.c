@@ -2,6 +2,7 @@
 #include "globals.h"
 #include "utils.h"
 #include "Actor/npc.h"
+#include "Maps/map.h"
 
 display_context_t disp;
 sprite_t *aang_sprite;
@@ -51,3 +52,4 @@ npc_t *npcs[32];
 size_t npcs_count = 0;
 player_t player;
 bool menu_open = false;
+map_t *map;

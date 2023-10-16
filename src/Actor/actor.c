@@ -73,5 +73,14 @@ bool will_collide(Vector2 toPosition) {
             return true;
         }
     }
+    // Check collisions with walls
+    Vector2 tile = (Vector2) { toPosition.x / 32, toPosition.y / 32 };
+    if (tile.x < 0 || tile.y < 0 || tile.x >= map->width || tile.y >= map->height) {
+        return true;
+    }
+    if (map->collision_map[tile.x + tile.y * map->width] != NONE) {
+        return true;
+    }
+    
     return false;
 }

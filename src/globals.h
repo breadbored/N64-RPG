@@ -9,6 +9,7 @@
 #include "utils.h"
 #include "Actor/npc.h"
 #include "Actor/player.h"
+#include "Maps/map.h"
 
 extern display_context_t disp;
 extern sprite_t *aang_sprite;
@@ -40,5 +41,6 @@ extern npc_t *npcs[32];
 extern size_t npcs_count;
 extern player_t player;
 extern bool menu_open;
+extern map_t *map;
 
 #endif /* __BREADCODES_GLOBALS_H */

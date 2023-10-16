@@ -41,6 +41,7 @@ typedef struct map_t {
     const int *bg_map;
     const int *fg0_map;
     const int *fg1_map;
+    const int *collision_map;
     npc_t **npcs;
     uint8_t npcs_count;
 } map_t;

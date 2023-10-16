@@ -165,6 +165,8 @@ int main( void )
     timer_init();
     load_textures();
 
+    map = &overworld_map;
+
     npcs_count = overworld_map.npcs_count;
     for(int i = 0; i < 32; i++) {
         if (i < overworld_map.npcs_count) {
