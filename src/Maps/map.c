@@ -34,11 +34,26 @@ int mmax(int a, int b) {
     return a > b ? a : b;
 }
 
+int md_comparator(const void *v1, const void *v2)
+{
+    const map_tile_t *p1 = (map_tile_t *)v1;
+    const map_tile_t *p2 = (map_tile_t *)v2;
+    if (p1->tile < p2->tile)
+        return -1;
+    else if (p1->tile > p2->tile)
+        return +1;
+    else
+        return 0;
+}
+
 void draw_section(map_t *map, sprite_t **sprite_arr, const int *tilemap, bool rendered_after_player) {
     Vector2 start_position = get_map_position((Vector2) { -32, -32 });
     Vector2 end_position = get_map_position((Vector2) { screen_size.x + 32, screen_size.y + 32 });
     Vector2 start_tile = (Vector2) { start_position.x / 32, start_position.y / 32 };
     Vector2 end_tile = (Vector2) { end_position.x / 32, end_position.y / 32 };
+
+    map_tile_t tiles[((320 / 32) + 64) * ((240 / 32) + 64)] = { 0 };
+    size_t num_tiles = 0;
 
     // Because rdp_load_texture_stride is expensive and causes a frame drop when called many times, 
     // we only load the texture when it changes.
@@ -73,15 +88,33 @@ void draw_section(map_t *map, sprite_t **sprite_arr, const int *tilemap, bool re
                 continue;
             }
 
-            // Only load textures as often as they change, and only load the texture if it's not already loaded
-            if (last_tile_texture != tile) {
-                sprite_t *sprite = *(map_tile_texture[tile / (8*8)]);
-                rdp_sync( SYNC_PIPE );
-                rdp_load_texture_stride( 0, 0, MIRROR_DISABLED, sprite, tile % (8*8) );
-                last_tile_texture = tile;
-            }
-            rdp_draw_sprite( 0, screen_position.x, screen_position.y, MIRROR_DISABLED );
+            // // Only load textures as often as they change, and only load the texture if it's not already loaded
+            // if (last_tile_texture != tile) {
+            //     sprite_t *sprite = *(map_tile_texture[tile / (8*8)]);
+            //     rdp_sync( SYNC_PIPE );
+            //     rdp_load_texture_stride( 0, 0, MIRROR_DISABLED, sprite, tile % (8*8) );
+            //     last_tile_texture = tile;
+            // }
+            // rdp_draw_sprite( 0, screen_position.x, screen_position.y, MIRROR_DISABLED );
+
+            tiles[num_tiles] = (map_tile_t) { tile, screen_position };
+            num_tiles++;
         }
+    }
+
+    qsort(tiles, num_tiles, sizeof(map_tile_t), md_comparator);
+    
+    for (int i = 0; i < num_tiles; i++) {
+        int tile = tiles[i].tile;
+        Vector2 screen_position = tiles[i].position;
+        // Only load textures as often as they change, and only load the texture if it's not already loaded
+        if (last_tile_texture != tile) {
+            sprite_t *sprite = *(map_tile_texture[tile / (8*8)]);
+            rdp_sync( SYNC_PIPE );
+            rdp_load_texture_stride( 0, 0, MIRROR_DISABLED, sprite, tile % (8*8) );
+            last_tile_texture = tile;
+        }
+        rdp_draw_sprite( 0, screen_position.x, screen_position.y, MIRROR_DISABLED );
     }
 }
 
