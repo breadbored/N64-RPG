@@ -53,6 +53,6 @@ assets:
 
 libdragon-tools:
 	cd libdragon/ && make tools install
-.PHONY: assets
+.PHONY: tools
 
 -include $(DEPS)

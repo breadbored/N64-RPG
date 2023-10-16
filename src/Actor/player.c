@@ -38,7 +38,7 @@ void player_handle_controller(player_t *player, controller_state_t *controller_s
                 player->actor.fromPosition.x,
                 floor(player->actor.fromPosition.y / 32) * 32 + 32
             };
-            if (player->actor.movementDelay > movementDelayThreshold && !will_collide(toPosition)) {
+            if (player->actor.movementDelay > movementDelayThreshold && !will_collide(&(player->actor), toPosition)) {
                 player->actor.toPosition.x = toPosition.x;
                 player->actor.toPosition.y = toPosition.y;
                 player->actor.moving = true;
@@ -50,7 +50,7 @@ void player_handle_controller(player_t *player, controller_state_t *controller_s
                 player->actor.fromPosition.x,
                 floor(player->actor.fromPosition.y / 32) * 32 - 32
             };
-            if (player->actor.movementDelay > movementDelayThreshold && !will_collide(toPosition)) {
+            if (player->actor.movementDelay > movementDelayThreshold && !will_collide(&(player->actor), toPosition)) {
                 player->actor.toPosition.x = toPosition.x;
                 player->actor.toPosition.y = toPosition.y;
                 player->actor.moving = true;
@@ -62,7 +62,7 @@ void player_handle_controller(player_t *player, controller_state_t *controller_s
                 floor(player->actor.fromPosition.x / 32) * 32 - 32,
                 player->actor.fromPosition.y
             };
-            if (player->actor.movementDelay > movementDelayThreshold && !will_collide(toPosition)) {
+            if (player->actor.movementDelay > movementDelayThreshold && !will_collide(&(player->actor), toPosition)) {
                 player->actor.toPosition.x = toPosition.x;
                 player->actor.toPosition.y = toPosition.y;
                 player->actor.moving = true;
@@ -74,7 +74,7 @@ void player_handle_controller(player_t *player, controller_state_t *controller_s
                 floor(player->actor.fromPosition.x / 32) * 32 + 32,
                 player->actor.fromPosition.y
             };
-            if (player->actor.movementDelay > movementDelayThreshold && !will_collide(toPosition)) {
+            if (player->actor.movementDelay > movementDelayThreshold && !will_collide(&(player->actor), toPosition)) {
                 player->actor.toPosition.x = toPosition.x;
                 player->actor.toPosition.y = toPosition.y;
                 player->actor.moving = true;

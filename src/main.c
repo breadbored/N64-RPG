@@ -221,46 +221,6 @@ int main( void )
         //     free(resultX);
         // }
 
-        // if (DEBUG) {
-        //     int lenX = snprintf(NULL, 0, "%d", player.actor.toPosition.x);
-        //     char *resultX = malloc(lenX + 1);
-        //     snprintf(resultX, lenX + 1, "%d", player.actor.toPosition.x);
-        //     graphics_draw_text( disp, ((disp->width * 7.0f) / 20.0f), 10, resultX );
-        //     free(resultX);
-
-        //     int lenY = snprintf(NULL, 0, "%d", player.actor.toPosition.y);
-        //     char *resultY = malloc(lenY + 1);
-        //     snprintf(resultY, lenY + 1, "%d", player.actor.toPosition.y);
-        //     graphics_draw_text( disp, ((disp->width * 7.0f) / 20.0f), 30, resultY );
-        //     free(resultY);
-
-        //     int lenMC = snprintf(NULL, 0, "%u", player.actor.movementCounter);
-        //     char *resultMC = malloc(lenMC + 1);
-        //     snprintf(resultMC, lenMC + 1, "%u", player.actor.movementCounter);
-        //     graphics_draw_text( disp, ((disp->width * 7.0f) / 20.0f), 50, resultMC );
-        //     free(resultMC);
-
-        //     int lenController1 = snprintf(NULL, 0, BIT32_TO_BINARY_PATTERN, U32_TO_BINARY(controllerData1));
-        //     char *resultController1 = malloc(lenController1 + 1);
-        //     snprintf(resultController1, lenController1 + 1, BIT32_TO_BINARY_PATTERN, U32_TO_BINARY(controllerData1));
-        //     graphics_draw_text( disp, 10, 70, resultController1 );
-        //     free(resultController1);
-
-        //     int lenController2 = snprintf(NULL, 0, BIT32_TO_BINARY_PATTERN, U32_TO_BINARY(controllerData2));
-        //     char *resultController2 = malloc(lenController2 + 1);
-        //     snprintf(resultController2, lenController2 + 1, BIT32_TO_BINARY_PATTERN, U32_TO_BINARY(controllerData2));
-        //     graphics_draw_text( disp, 10, 90, resultController2 );
-        //     free(resultController2);
-
-        //     MouseData mouseData = get_mouse_value(controllerData2);
-        //     int lenMouseXY = snprintf(NULL, 0, "%d, %d", mouseData.deltaX, mouseData.deltaY);
-        //     char *resultMouseXY = malloc(lenMouseXY + 1);
-        //     snprintf(resultMouseXY, lenMouseXY + 1, "%d, %d", mouseData.deltaX, mouseData.deltaY);
-        //     graphics_draw_text( disp, ((disp->width * 7.0f) / 20.0f), 110, resultMouseXY );
-        //     free(resultMouseXY);
-        // }
-
-#pragma region RDP Commands
         /* Assure RDP is ready for new commands */
         rdp_sync( SYNC_PIPE );
 
@@ -272,10 +232,10 @@ int main( void )
 
         /* Attach RDP to display */
         rdp_attach_display( disp );
-#pragma endregion Commands
         
         map_draw(&overworld_map, map_tile_texture, 0); // Background
         map_draw(&overworld_map, map_tile_texture, 1); // Layer 0 Foregrounds
+        map_draw(&overworld_map, map_tile_texture, 2); // Layer 1 Foregrounds
 
         for (size_t i = 0; i < npcs_count; i++) {
             npc_draw(npcs[i], animcounter);
@@ -283,7 +243,7 @@ int main( void )
 
         player_draw(&player, animcounter);
 
-        map_draw(&overworld_map, map_tile_texture, 2); // Layer 1 Foreground
+        map_draw(&overworld_map, map_tile_texture, 3); // Layer 2 Foreground
 
         /* Inform the RDP we are finished drawing and that any pending operations should be flushed */
         rdp_detach_display();

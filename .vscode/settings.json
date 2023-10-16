@@ -86,7 +86,8 @@
         "actor.h": "c",
         "overworld_map.h": "c",
         "stdlib.h": "c",
-        "map": "c"
+        "map": "c",
+        "stdio.h": "c"
     },
     "cSpell.words": [
         "animcounter",

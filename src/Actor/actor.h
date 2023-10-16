@@ -36,6 +36,6 @@ int actor_frame(actor_t *actor, uint32_t *animcounter);
 
 void actor_draw(actor_t *actor, uint32_t *animcounter);
 
-bool will_collide(Vector2 toPosition);
+bool will_collide(actor_t *actor, Vector2 toPosition);
 
 #endif /* __ACTOR_H */

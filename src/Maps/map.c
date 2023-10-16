@@ -94,8 +94,11 @@ void map_draw(map_t *map, sprite_t ***sprite_arr, uint8_t layer)
         draw_section(map, (*sprite_arr), map->fg0_map, false);
         return;
     } else if (layer == 2) {
+        draw_section(map, (*sprite_arr), map->fg1_map, false);
+        return;
+    } else if (layer == 3) {
         // Since this layer comes after the player (to layer over them), we need to adjust the offset
-        draw_section(map, (*sprite_arr), map->fg1_map, true);
+        draw_section(map, (*sprite_arr), map->fg2_map, true);
         return;
     }
 }

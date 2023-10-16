@@ -61,10 +61,12 @@ void actor_draw(actor_t *actor, uint32_t *animcounter) {
     rdp_draw_sprite( 0, screen_coordinates.x, screen_coordinates.y, actor->direction == Right ? MIRROR_X : MIRROR_DISABLED );
 }
 
-bool will_collide(Vector2 toPosition) {
-    // If NPC is moving, check if it will collide with the player
-    if ((player.actor.position.x == toPosition.x && player.actor.position.y == toPosition.y) || (player.actor.toPosition.x == toPosition.x && player.actor.toPosition.y == toPosition.y)) {
-        return true;
+bool will_collide(actor_t *actor, Vector2 toPosition) {
+    if (&((&player)->actor) != actor) {
+        // If NPC is moving, check if it will collide with the player
+        if ((player.actor.position.x == toPosition.x && player.actor.position.y == toPosition.y) || (player.actor.toPosition.x == toPosition.x && player.actor.toPosition.y == toPosition.y)) {
+            return true;
+        }
     }
     // NPCs and Player need to check collisions with each other
     for (size_t i = 0; i < npcs_count; i++) {
@@ -74,11 +76,25 @@ bool will_collide(Vector2 toPosition) {
         }
     }
     // Check collisions with walls
-    Vector2 tile = (Vector2) { toPosition.x / 32, toPosition.y / 32 };
-    if (tile.x < 0 || tile.y < 0 || tile.x >= map->width || tile.y >= map->height) {
+    Vector2 toTile = (Vector2) { toPosition.x / 32, toPosition.y / 32 };
+    Vector2 fromTile = (Vector2) { actor->fromPosition.x / 32, actor->fromPosition.y / 32 };
+    if (toTile.x < 0 || toTile.y < 0 || toTile.x >= map->width || toTile.y >= map->height) {
         return true;
     }
-    if (map->collision_map[tile.x + tile.y * map->width] != NONE) {
+    // Non-conditional collisions have an id of 0, interactive collisions have an id of 1
+    if (map->collision_map[toTile.x + toTile.y * map->width] == 0 || map->collision_map[toTile.x + toTile.y * map->width] == 1) {
+        return true;
+    }
+
+    // Check collision with foreground objects (implying standing on a raised surface) and green collisions
+    // Used to keep the player from walking off a ledge
+    if (map->fg0_map[fromTile.x + fromTile.y * map->width] != NONE && map->collision_map[toTile.x + toTile.y * map->width] == 3) {
+        return true;
+    }
+
+    // Check collision with green collisions (implying standing on a lower surface) and foreground objects (a raised surface)
+    // Used to keep the player from walking up a ledge
+    if (map->fg0_map[toTile.x + toTile.y * map->width] != NONE && map->collision_map[fromTile.x + fromTile.y * map->width] == 3) {
         return true;
     }
     

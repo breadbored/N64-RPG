@@ -80,7 +80,7 @@ void npc_update_movement(npc_t *npc) {
                         npc->actor.fromPosition.x,
                         floor(npc->actor.fromPosition.y / 32) * 32 + 32
                     };
-                    if (!will_collide(toPosition)) {
+                    if (!will_collide(&(npc->actor),toPosition)) {
                         npc->actor.toPosition.x = toPosition.x;
                         npc->actor.toPosition.y = toPosition.y;
                         npc->actor.moving = true;
@@ -93,7 +93,7 @@ void npc_update_movement(npc_t *npc) {
                         npc->actor.fromPosition.x,
                         floor(npc->actor.fromPosition.y / 32) * 32 - 32
                     };
-                    if (!will_collide(toPosition)) {
+                    if (!will_collide(&(npc->actor),toPosition)) {
                         npc->actor.toPosition.x = toPosition.x;
                         npc->actor.toPosition.y = toPosition.y;
                         npc->actor.moving = true;
@@ -106,7 +106,7 @@ void npc_update_movement(npc_t *npc) {
                         floor(npc->actor.fromPosition.x / 32) * 32 - 32,
                         npc->actor.fromPosition.y
                     };
-                    if (!will_collide(toPosition)) {
+                    if (!will_collide(&(npc->actor),toPosition)) {
                         npc->actor.toPosition.x = toPosition.x;
                         npc->actor.toPosition.y = toPosition.y;
                         npc->actor.moving = true;
@@ -119,7 +119,7 @@ void npc_update_movement(npc_t *npc) {
                         floor(npc->actor.fromPosition.x / 32) * 32 + 32,
                         npc->actor.fromPosition.y
                     };
-                    if (!will_collide(toPosition)) {
+                    if (!will_collide(&(npc->actor),toPosition)) {
                         npc->actor.toPosition.x = toPosition.x;
                         npc->actor.toPosition.y = toPosition.y;
                         npc->actor.moving = true;
