@@ -17,7 +17,7 @@ const bool DEBUG = false;
 
 void controller_handle(void);
 
-void update( int ovfl )
+void update(void)
 {
     animcounter++;
     for (size_t i = 0; i < npcs_count; i++) {
@@ -65,24 +65,14 @@ void controller_handle(void) {
 
 void load_textures(void) {
     /* Read in single sprite */
-    int fp = dfs_open("/aang.sprite");
-    aang_sprite = malloc( dfs_size( fp ) );
-    dfs_read( aang_sprite, 1, dfs_size( fp ), fp );
+    int fp = dfs_open("/player.sprite");
+    player_sprite = malloc( dfs_size( fp ) );
+    dfs_read( player_sprite, 1, dfs_size( fp ), fp );
     dfs_close( fp );
 
-    fp = dfs_open("/peach.sprite");
-    peach_sprite = malloc( dfs_size( fp ) );
-    dfs_read( peach_sprite, 1, dfs_size( fp ), fp );
-    dfs_close( fp );
-
-    fp = dfs_open("/yugi.sprite");
-    yugi_sprite = malloc( dfs_size( fp ) );
-    dfs_read( yugi_sprite, 1, dfs_size( fp ), fp );
-    dfs_close( fp );
-
-    fp = dfs_open("/rick.sprite");
-    rick_sprite = malloc( dfs_size( fp ) );
-    dfs_read( rick_sprite, 1, dfs_size( fp ), fp );
+    fp = dfs_open("/npc_ghost.sprite");
+    npc_ghost = malloc( dfs_size( fp ) );
+    dfs_read( npc_ghost, 1, dfs_size( fp ), fp );
     dfs_close( fp );
     
     fp = dfs_open("/tileset_0.sprite");
@@ -165,6 +155,8 @@ int main( void )
     timer_init();
     load_textures();
 
+    uint32_t last_time = get_ticks();
+
     map = &overworld_map;
 
     npcs_count = overworld_map.npcs_count;
@@ -172,22 +164,22 @@ int main( void )
         if (i < overworld_map.npcs_count) {
             npcs[i] = overworld_map.npcs[i];
 
-            sprite_t* sprite = i % 3 == 0 ? rick_sprite : i % 3 == 1 ? peach_sprite : i % 3 == 2 ? yugi_sprite : aang_sprite;
+            sprite_t* sprite = npc_ghost;
             int ranAction = random_int(0, 8);
             npc_action_t action = ranAction % 4 == 0 ? Spin : ranAction % 4 == 1 ? Idle : ranAction % 4 == 2 ? Pace : Path;
             int ranDir = random_int(0, 8);
             direction_t direction = ranDir % 4 == 0 ? Up : ranDir % 4 == 1 ? Down : ranDir % 4 == 2 ? Left : Right;
             
-            npc_init(npcs[i], sprite, (Vector2){ 32 * i + 64, 32 * (i % 2) + 64 }, direction, action, 10, 3);
+            npc_init(npcs[i], sprite, (Vector2){ 32 * i + (35*32), 32 * (i % 2) + (39*32) }, direction, action, 10, 3);
         } else {
             npcs[i] = NULL; // Clear all NPCs in buffer
         }
     }
 
-    player_init(&player, aang_sprite, (Vector2){ (overworld_map.width * 32) / 2, (overworld_map.height * 32) / 2 });
+    player_init(&player, player_sprite, (Vector2){ (overworld_map.width * 32) / 2, (overworld_map.height * 32) / 2 });
 
     /* Kick off animation update timer to fire thirty times a second */
-    new_timer(TIMER_TICKS(1000000 / 30), TF_CONTINUOUS, update);
+    // new_timer(TIMER_TICKS(1000000 / 30), TF_CONTINUOUS, update);
 
     /* Main loop test */
     while(1) 
@@ -207,19 +199,6 @@ int main( void )
             screen_size.x = disp->width;
             screen_size.y = disp->height;
         }
-    
-        /* 
-            Hardware Rendering 
-        */
-        // graphics_draw_text( disp, ((disp->width * 7.0f) / 20.0f), 20, "@BreadCodes" );
-        
-        // for (int i = 0; i < overworld_map.npcs_count; i++) {
-        //     int lenX = snprintf(NULL, 0, "%d", overworld_map.npcs[i]->action);
-        //     char *resultX = malloc(lenX + 1);
-        //     snprintf(resultX, lenX + 1, "%d", overworld_map.npcs[i]->action);
-        //     graphics_draw_text( disp, ((disp->width * 7.0f) / 20.0f), 10 + (20 * i), resultX );
-        //     free(resultX);
-        // }
 
         /* Assure RDP is ready for new commands */
         rdp_sync( SYNC_PIPE );
@@ -233,6 +212,15 @@ int main( void )
         /* Attach RDP to display */
         rdp_attach_display( disp );
         
+        uint32_t now = get_ticks();
+        uint32_t time_delta = now - last_time;
+        
+        if (time_delta >= TIMER_TICKS(1000000 / 30)) {
+            last_time = now;
+
+            update();
+        }
+
         map_draw(&overworld_map, map_tile_texture, 0); // Background
         map_draw(&overworld_map, map_tile_texture, 1); // Layer 0 Foregrounds
         map_draw(&overworld_map, map_tile_texture, 2); // Layer 1 Foregrounds
@@ -244,6 +232,14 @@ int main( void )
         player_draw(&player, animcounter);
 
         map_draw(&overworld_map, map_tile_texture, 3); // Layer 2 Foreground
+
+        // // PRINT FPS
+        // int fps = TIMER_TICKS(1000000) / time_delta;
+        // int lenFPS = snprintf(NULL, 0, "FPS: %d", fps);
+        // char *resultFPS = malloc(lenFPS + 1);
+        // snprintf(resultFPS, lenFPS + 1, "FPS: %d", fps);
+        // graphics_draw_text( disp, 32, 32, resultFPS );
+        // free(resultFPS);
 
         /* Inform the RDP we are finished drawing and that any pending operations should be flushed */
         rdp_detach_display();

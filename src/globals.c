@@ -5,6 +5,8 @@
 #include "Maps/map.h"
 
 display_context_t disp;
+sprite_t *player_sprite;
+sprite_t *npc_ghost;
 sprite_t *aang_sprite;
 sprite_t *peach_sprite;
 sprite_t *yugi_sprite;

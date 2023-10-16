@@ -27,6 +27,8 @@ clean:
 assets:
 	mksprite 16 2 2 assets/venusaur.png filesystem/venusaur.sprite
 	mksprite 16 9 2 assets/aang.png filesystem/aang.sprite
+	mksprite 16 3 4 assets/player.png filesystem/player.sprite
+	mksprite 16 3 4 assets/npc_ghost.png filesystem/npc_ghost.sprite
 	mksprite 16 9 2 assets/peach.png filesystem/peach.sprite
 	mksprite 16 9 2 assets/yugi.png filesystem/yugi.sprite
 	mksprite 16 9 1 assets/rick.png filesystem/rick.sprite

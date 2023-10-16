@@ -12,6 +12,8 @@
 #include "Maps/map.h"
 
 extern display_context_t disp;
+extern sprite_t *player_sprite;
+extern sprite_t *npc_ghost;
 extern sprite_t *aang_sprite;
 extern sprite_t *peach_sprite;
 extern sprite_t *yugi_sprite;
