@@ -43,6 +43,8 @@ To build the project:
 
 This will produce an N64 ROM  called `breacodes.z64`
 
+![Screenshot](screenshot.png)
+
 ## Playing
 
 ### The best way to play is on a real Nintendo 64 via a flashcart
