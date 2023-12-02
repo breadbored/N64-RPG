@@ -40,3 +40,13 @@ jobs:
       
     - name: make
       run: make
+
+    - name: Upload ROM to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: breadcodes.z64
+        asset_name: latest_rom
+        tag: ${{ github.ref }}
+        overwrite: true
+        body: "Latest ROM built from ${{ github.ref }}"
