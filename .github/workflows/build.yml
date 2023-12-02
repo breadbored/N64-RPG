@@ -27,8 +27,7 @@ jobs:
         sudo apt install build-essential libpng-dev
         curl -sLO https://github.com/DragonMinded/libdragon/releases/download/toolchain-continuous-prerelease/gcc-toolchain-mips64-x86_64.deb && sudo dpkg -i gcc-toolchain-mips64-x86_64.deb
         cd libdragon
-        ./build.sh
-        echo $N64_INST
+        sudo ./build.sh
       
     - name: make assets
       run: make assets
