@@ -46,7 +46,7 @@ jobs:
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: breadcodes.z64
-        asset_name: latest_rom
+        asset_name: unnamed_rpg.z64
         tag: ${{ github.ref }}
         overwrite: true
         body: "Latest ROM built from ${{ github.ref }}"
