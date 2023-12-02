@@ -32,8 +32,8 @@ jobs:
         cd ..
         ./build.sh
       
-    - name: make assets
-      run: make assets
+    # - name: make assets
+    #   run: make assets
       
     - name: make
       run: make
