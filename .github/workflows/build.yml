@@ -20,7 +20,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        echo "N64_INST=/opt/libdragon" >> "$GITHUB_ENV"
+        echo "N64_INST=/home/runner/work/N64-RPG/N64-RPG/libdragon" >> "$GITHUB_ENV"
         sudo apt-get update
         sudo apt install build-essential libpng-dev
         curl -sLO https://github.com/DragonMinded/libdragon/releases/download/toolchain-continuous-prerelease/gcc-toolchain-mips64-x86_64.deb && sudo dpkg -i gcc-toolchain-mips64-x86_64.deb
