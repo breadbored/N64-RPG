@@ -25,8 +25,11 @@ jobs:
         echo "N64_INST=/home/runner/work/N64-RPG/N64-RPG/libdragon-toolchain" > .env
         sudo apt-get update
         sudo apt install build-essential libpng-dev
-        curl -sLO https://github.com/DragonMinded/libdragon/releases/download/toolchain-continuous-prerelease/gcc-toolchain-mips64-x86_64.deb && sudo dpkg -i gcc-toolchain-mips64-x86_64.deb
+        # curl -sLO https://github.com/DragonMinded/libdragon/releases/download/toolchain-continuous-prerelease/gcc-toolchain-mips64-x86_64.deb && sudo dpkg -i gcc-toolchain-mips64-x86_64.deb
         cd libdragon
+        cd tools
+        ./build-toolchain.sh
+        cd ..
         ./build.sh
       
     - name: make assets
