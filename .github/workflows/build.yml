@@ -23,6 +23,9 @@ jobs:
         export N64_INST=/home/runner/work/N64-RPG/N64-RPG/libdragon-toolchain
         echo "N64_INST=/home/runner/work/N64-RPG/N64-RPG/libdragon-toolchain" >> "$GITHUB_ENV"
         echo "N64_INST=/home/runner/work/N64-RPG/N64-RPG/libdragon-toolchain" > .env
+        export PATH=$PATH:$N64_INST/bin
+        echo "PATH=$PATH:$N64_INST/bin" >> "$GITHUB_ENV"
+        echo "PATH=$PATH:$N64_INST/bin" > .env
         sudo apt-get update
         sudo apt install build-essential libpng-dev
         # curl -sLO https://github.com/DragonMinded/libdragon/releases/download/toolchain-continuous-prerelease/gcc-toolchain-mips64-x86_64.deb && sudo dpkg -i gcc-toolchain-mips64-x86_64.deb
@@ -32,8 +35,8 @@ jobs:
         cd ..
         ./build.sh
       
-    # - name: make assets
-    #   run: make assets
+    - name: make assets
+      run: make assets
       
     - name: make
       run: make
