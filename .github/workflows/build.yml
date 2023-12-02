@@ -1,0 +1,36 @@
+name: Libdragon C CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Checkout submodules
+      uses: textbook/git-checkout-submodule-action@master
+      with:
+        submodules: recursive
+
+    - name: Install dependencies
+      run: |
+        export N64_INST=/opt/libdragon
+        sudo apt-get update
+        sudo apt install build-essential libpng-dev
+        curl -sLO https://github.com/DragonMinded/libdragon/releases/download/toolchain-continuous-prerelease/gcc-toolchain-mips64-x86_64.deb && sudo dpkg -i gcc-toolchain-mips64-x86_64.deb
+        cd libdragon
+        ./build.sh
+      
+    - name: make assets
+      run: make assets
+      
+    - name: make
+      run: make
